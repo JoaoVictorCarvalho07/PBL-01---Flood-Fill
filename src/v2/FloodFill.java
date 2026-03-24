@@ -110,6 +110,7 @@ public class FloodFill {
             queue.add(new Point(p.x, p.y - 1)); // cima
         }
 
+        forceDisplayUpdate();
         System.out.println("Flood Fill com FILA concluído!");
         saveResult("output_queue.png");
     }
@@ -141,7 +142,7 @@ public class FloodFill {
     //  ATUALIZA A ANIMAÇÃO
     // 
 
-    private void updateDisplay() {
+    public void updateDisplay() {
         frameCount++;
 
         if (frameCount % FRAME_SKIP == 0) {
@@ -158,11 +159,17 @@ public class FloodFill {
         }
     }
 
+    public void forceDisplayUpdate() {
+        canvas.setImage(image);
+        canvas.repaint();
+    }
+
     // 
     //  SALVA A IMAGEM RESULTANTE
     // 
     private void saveResult(String filename) {
         try {
+            updateDisplay();
             if (!finalOutputDir.exists()) {
                 finalOutputDir.mkdirs();
             }

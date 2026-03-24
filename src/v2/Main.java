@@ -52,17 +52,22 @@ public class Main {
 
 
                 canvas.addMouseListener(new MouseAdapter() {
+
+
                     @Override
                     public void mouseClicked(MouseEvent e) {
+
+                        int imageX = e.getX() / scale;
+                        int imageY = e.getY() / scale;
 
                         Thread init = new Thread(() -> {
                             try {
                                 Thread.sleep(400);
 
                                 if (stack) {
-                                    floodFill.fillWithStack(e.getX(), e.getY(), color);
+                                    floodFill.fillWithStack(imageX, imageY, color);
                                 } else {
-                                    floodFill.fillWithQueue(e.getX(), e.getY(), color);
+                                    floodFill.fillWithQueue(imageX,imageY, color);
                                 }
 
                             } catch (InterruptedException ex) {
