@@ -64,7 +64,7 @@ public class FloodFill {
 
         if (targetColor == paintColor) return;
 
-        Queue<Point> queue = new LinkedList<>();
+        Queue<Point> queue = new Queue<>();
         queue.add(new Point(startX, startY));
 
         System.out.println("Iniciando Flood Fill com FILA...");
