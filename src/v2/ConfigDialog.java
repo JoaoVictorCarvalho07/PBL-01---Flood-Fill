@@ -8,12 +8,12 @@ import java.io.File;
 public class ConfigDialog extends JDialog {
 
     // Campos do formulário 
-    private JTextField fieldImagePath  = new JTextField("img_1.png", 800);
-    private JTextField fieldStartX     = new JTextField("0");
-    private JTextField fieldStartY     = new JTextField("0");
-    private JTextField fieldScale      = new JTextField("1");
-    private JTextField fieldDelay      = new JTextField("10");
-    private JTextField fieldFrameSkip  = new JTextField("1");
+    private JTextField fieldImagePath  = new JTextField("img_0.png", 50);
+    private JTextField fieldStartX     = new JTextField("0",3);
+    private JTextField fieldStartY     = new JTextField("0",3);
+    private JTextField fieldScale      = new JTextField("1",3);
+    private JTextField fieldDelay      = new JTextField("10",3);
+    private JTextField fieldFrameSkip  = new JTextField("10",3);
     private JButton    btnColor        = new JButton("   Escolher   ");
     private JComboBox<String> comboMethod = new JComboBox<>(new String[]{"Pilha (Stack)", "Fila (Queue)"});
 
@@ -177,7 +177,7 @@ public class ConfigDialog extends JDialog {
         return p;
     }
 
-    //  Getters para o Main usar 
+    //  Getters para o Main usar
     public boolean isConfirmed()  { return confirmed; }
     public String  getImagePath() { return fieldImagePath.getText().trim(); }
     public int     getStartX()    { return Integer.parseInt(fieldStartX.getText().trim()); }
