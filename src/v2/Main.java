@@ -1,4 +1,9 @@
 package v2;
+import v2.algorithm.FloodFillCanvas;
+import v2.algorithm.FloodFillQueue;
+import v2.algorithm.FloodFillStack;
+import v2.algorithm.IFloodFill;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +29,6 @@ public class Main {
                 //  2. Lê os parâmetros escolhidos 
                 BufferedImage image = ImageIO.read(new File(dialog.getImagePath()));
 
-
                 int scale     = dialog.getScale();
                 int delay     = dialog.getDelay();
                 int frameSkip = dialog.getFrameSkip();
@@ -35,10 +39,6 @@ public class Main {
                 //  3. Monta a janela principal 
                 FloodFillCanvas canvas = new FloodFillCanvas(image,scale);
 
-
-
-
-
                 JFrame frame = new JFrame("Flood Fill - Animação");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new JScrollPane(canvas));
@@ -46,13 +46,8 @@ public class Main {
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
 
-                //  4. Inicia o Flood Fill 
-                FloodFill floodFill = new FloodFill(image, canvas, frameSkip, delay,color,framesToSnapshot);
-
-
-
+                //  4. Inicia o Flood Fill
                 canvas.addMouseListener(new MouseAdapter() {
-
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -64,10 +59,13 @@ public class Main {
                             try {
                                 Thread.sleep(400);
 
+                                IFloodFill filler;
                                 if (stack) {
-                                    floodFill.fillWithStack(imageX, imageY, color);
+                                    filler = new FloodFillStack(image, canvas, frameSkip, delay,color,framesToSnapshot);
+                                    filler.fill(imageX, imageY, color);
                                 } else {
-                                    floodFill.fillWithQueue(imageX,imageY, color);
+                                    filler = new FloodFillQueue(image, canvas, frameSkip, delay,color,framesToSnapshot);
+                                    filler.fill(imageX, imageY, color);
                                 }
 
                             } catch (InterruptedException ex) {
@@ -78,8 +76,6 @@ public class Main {
                         init.start();
                     }
                 });
-
-
 
 
             } catch (Exception ex) {
