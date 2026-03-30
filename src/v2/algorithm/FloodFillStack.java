@@ -32,10 +32,10 @@ public class FloodFillStack extends AbstractFloodFill {
             image.setRGB(p.x, p.y, paintColor);
             updateDisplay();
 
-            stack.push(new Point(p.x + 1, p.y)); // direita
-            stack.push(new Point(p.x - 1, p.y)); // esquerda
-            stack.push(new Point(p.x, p.y + 1)); // baixo
-            stack.push(new Point(p.x, p.y - 1)); // cima
+            stack.push(new Point(p.x + 1, p.y));
+            stack.push(new Point(p.x - 1, p.y));
+            stack.push(new Point(p.x, p.y + 1));
+            stack.push(new Point(p.x, p.y - 1));
         }
 
         System.out.println("Flood Fill com PILHA concluído!");
