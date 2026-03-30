@@ -14,21 +14,20 @@ public abstract class AbstractFloodFill implements IFloodFill {
     protected int delay;
     protected Color cor;
     protected int framesToSnapshot;
-    protected int snapshotCount = 0;
+    protected static int  snapshotCount = 0;
 
-    protected File snapshotOutputDir = new File("output/Snapshots");
-    protected File finalOutputDir    = new File("output/Final");
+    protected File snapshotOutputDir = new File("output/snapshots");
+    protected File finalOutputDir    = new File("output/final");
 
     public AbstractFloodFill(BufferedImage image, FloodFillCanvas canvas,
                              int frameSkip, int delay, Color cor,
                              int framesToSnapshot) {
         this.image           = image;
         this.canvas          = canvas;
-        this.frameSkip       = frameSkip;  // salva imagem a cada X pixels (aumente para imagens grandes)
+        this.frameSkip       = frameSkip;
         this.delay           = delay;
         this.cor             = cor;
         this.framesToSnapshot = framesToSnapshot;
-        prepareOutputFolder();
     }
 
     public AbstractFloodFill(BufferedImage image, FloodFillCanvas canvas,
@@ -36,7 +35,6 @@ public abstract class AbstractFloodFill implements IFloodFill {
         this(image, canvas, frameSkip, delay, cor, 10);
     }
 
-    // Verifica se a posição (x,y) está dentro dos limites e tem a cor-alvo
     protected boolean isValid(int x, int y, int targetColor) {
         if (x < 0 || x >= image.getWidth())  return false;
         if (y < 0 || y >= image.getHeight()) return false;
@@ -70,7 +68,6 @@ public abstract class AbstractFloodFill implements IFloodFill {
         canvas.repaint();
     }
 
-    // Métodos para criar o diretório output e salvar as snapshots
     protected void saveResult(String filename) {
         try {
             updateDisplay();
@@ -95,21 +92,5 @@ public abstract class AbstractFloodFill implements IFloodFill {
         }
     }
 
-    private void prepareOutputFolder() {
-        File outputDir = new File("output/");
-        deleteDirectory(outputDir);
-        outputDir.mkdirs();
-    }
 
-    private void deleteDirectory(File dir) {
-        if (!dir.exists()) return;
-        File[] files = dir.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isDirectory()) deleteDirectory(file);
-                else file.delete();
-            }
-        }
-        dir.delete();
-    }
 }

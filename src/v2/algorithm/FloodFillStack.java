@@ -6,10 +6,6 @@ import v2.Stack;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/**
- * Flood Fill usando PILHA (Stack - LIFO).
- * Comportamento: expande em profundidade, formando um padrão "recursivo".
- */
 public class FloodFillStack extends AbstractFloodFill {
 
     public FloodFillStack(BufferedImage image, FloodFillCanvas canvas,

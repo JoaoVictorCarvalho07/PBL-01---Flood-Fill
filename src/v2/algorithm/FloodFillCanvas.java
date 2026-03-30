@@ -17,18 +17,19 @@ public class FloodFillCanvas extends JPanel {
 
     public void setImage(BufferedImage image) {
         this.image = image;
-        repaint(); // redesenha a cada atualização
+        repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (image != null) {
-            // Escala a imagem para caber melhor na tela
             g.drawImage(image, 0, 0,
                     image.getWidth() * scale,
                     image.getHeight() * scale,
                     null);
         }
     }
+
+
 }

@@ -7,7 +7,6 @@ import java.io.File;
 
 public class ConfigDialog extends JDialog {
 
-    // Campos do formulário 
     private JTextField fieldImagePath  = new JTextField("img_0.png", 50);
     private JTextField fieldStartX     = new JTextField("0",3);
     private JTextField fieldStartY     = new JTextField("0",3);
@@ -17,8 +16,7 @@ public class ConfigDialog extends JDialog {
     private JButton    btnColor        = new JButton("   Escolher   ");
     private JComboBox<String> comboMethod = new JComboBox<>(new String[]{"Pilha (Stack)", "Fila (Queue)"});
 
-    //  Resultado 
-    private Color selectedColor = Color.MAGENTA;
+    private Color selectedColor = Color.RED;
     private boolean confirmed   = false;
 
     public ConfigDialog(JFrame parent) {
@@ -33,7 +31,6 @@ public class ConfigDialog extends JDialog {
         JPanel root = new JPanel(new BorderLayout(10, 10));
         root.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        //  Painel: Imagem 
         JPanel panelImg = titledPanel("Imagem");
         panelImg.setLayout(new FlowLayout(FlowLayout.LEFT));
         panelImg.add(new JLabel("Arquivo (PNG):"));
@@ -42,7 +39,6 @@ public class ConfigDialog extends JDialog {
         btnBrowse.addActionListener(e -> browseFile());
         panelImg.add(btnBrowse);
 
-        //  Painel: Ponto inicial 
         JPanel panelPoint = titledPanel("Ponto Inicial");
         panelPoint.add(new JLabel("X (coluna):"));
         panelPoint.add(fieldStartX);
@@ -50,7 +46,6 @@ public class ConfigDialog extends JDialog {
         panelPoint.add(new JLabel("Y (linha):"));
         panelPoint.add(fieldStartY);
 
-        //  Painel: Visualização 
         JPanel panelView = titledPanel("Visualização");
         panelView.add(new JLabel("Escala (px por pixel):"));
         panelView.add(fieldScale);
@@ -62,7 +57,6 @@ public class ConfigDialog extends JDialog {
         labelFS.setFont(labelFS.getFont().deriveFont(10f));
         panelView.add(labelFS);
 
-        //  Painel: Animação 
         JPanel panelAnim = titledPanel("Animação");
         panelAnim.add(new JLabel("Delay por frame (ms):"));
         panelAnim.add(fieldDelay);
@@ -70,7 +64,6 @@ public class ConfigDialog extends JDialog {
         panelAnim.add(new JLabel("Método:"));
         panelAnim.add(comboMethod);
 
-        //  Painel: Cor 
         JPanel panelColor = titledPanel("Cor de Preenchimento");
         btnColor.setBackground(selectedColor);
         btnColor.setOpaque(true);
@@ -78,7 +71,6 @@ public class ConfigDialog extends JDialog {
         panelColor.add(new JLabel("Cor escolhida:"));
         panelColor.add(btnColor);
 
-        //  Layout central (empilha os painéis) 
         JPanel center = new JPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
         center.add(panelImg);
@@ -91,7 +83,6 @@ public class ConfigDialog extends JDialog {
         center.add(Box.createVerticalStrut(5));
         center.add(panelColor);
 
-        //  Botões OK / Cancelar 
         JButton btnOk     = new JButton("▶  Iniciar");
         JButton btnCancel = new JButton("Cancelar");
 
@@ -116,7 +107,6 @@ public class ConfigDialog extends JDialog {
         setContentPane(root);
     }
 
-    //  Abre seletor de arquivo 
     private void browseFile() {
         JFileChooser fc = new JFileChooser(".");
         fc.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Imagens PNG", "png"));
@@ -125,19 +115,16 @@ public class ConfigDialog extends JDialog {
         }
     }
 
-    //  Abre seletor de cor 
     private void chooseColor() {
         Color c = JColorChooser.showDialog(this, "Escolha a cor de preenchimento", selectedColor);
         if (c != null) {
             selectedColor = c;
             btnColor.setBackground(c);
-            // Ajusta texto do botão para contraste
             int brightness = (c.getRed() * 299 + c.getGreen() * 587 + c.getBlue() * 114) / 1000;
             btnColor.setForeground(brightness > 128 ? Color.BLACK : Color.WHITE);
         }
     }
 
-    //  Valida todos os campos 
     private boolean validateFields() {
         try {
             File f = new File(fieldImagePath.getText().trim());
@@ -167,7 +154,6 @@ public class ConfigDialog extends JDialog {
         JOptionPane.showMessageDialog(this, msg, "Erro de validação", JOptionPane.ERROR_MESSAGE);
     }
 
-    //  Helper: painel com borda e título 
     private JPanel titledPanel(String title) {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 5));
         p.setBorder(BorderFactory.createTitledBorder(
@@ -177,7 +163,6 @@ public class ConfigDialog extends JDialog {
         return p;
     }
 
-    //  Getters para o Main usar
     public boolean isConfirmed()  { return confirmed; }
     public String  getImagePath() { return fieldImagePath.getText().trim(); }
     public int     getStartX()    { return Integer.parseInt(fieldStartX.getText().trim()); }

@@ -1,8 +1,5 @@
 package v2;
-import v2.algorithm.FloodFillCanvas;
-import v2.algorithm.FloodFillQueue;
-import v2.algorithm.FloodFillStack;
-import v2.algorithm.IFloodFill;
+import v2.algorithm.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,7 +14,9 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
-                //  1. Mostra o dialog de configuração 
+
+                prepareOutputFolder();
+
                 ConfigDialog dialog = new ConfigDialog(null);
                 dialog.setVisible(true);
 
@@ -26,7 +25,6 @@ public class Main {
                     return;
                 }
 
-                //  2. Lê os parâmetros escolhidos 
                 BufferedImage image = ImageIO.read(new File(dialog.getImagePath()));
 
                 int scale     = dialog.getScale();
@@ -36,7 +34,6 @@ public class Main {
                 boolean stack = dialog.useStack();
                 int framesToSnapshot = dialog.getFrameSkip();
 
-                //  3. Monta a janela principal 
                 FloodFillCanvas canvas = new FloodFillCanvas(image,scale);
 
                 JFrame frame = new JFrame("Flood Fill - Animação");
@@ -46,7 +43,6 @@ public class Main {
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
 
-                //  4. Inicia o Flood Fill
                 canvas.addMouseListener(new MouseAdapter() {
 
                     @Override
@@ -62,11 +58,11 @@ public class Main {
                                 IFloodFill filler;
                                 if (stack) {
                                     filler = new FloodFillStack(image, canvas, frameSkip, delay,color,framesToSnapshot);
-                                    filler.fill(imageX, imageY, color);
                                 } else {
                                     filler = new FloodFillQueue(image, canvas, frameSkip, delay,color,framesToSnapshot);
-                                    filler.fill(imageX, imageY, color);
                                 }
+
+                                filler.fill(imageX, imageY, color);
 
                             } catch (InterruptedException ex) {
                                 Thread.currentThread().interrupt();
@@ -84,5 +80,23 @@ public class Main {
                 ex.printStackTrace();
             }
         });
+    }
+
+    private static void prepareOutputFolder() {
+        File outputDir = new File("output/");
+        deleteDirectory(outputDir);
+        outputDir.mkdirs();
+    }
+
+    private static void deleteDirectory(File dir) {
+        if (!dir.exists()) return;
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) deleteDirectory(file);
+                else file.delete();
+            }
+        }
+        dir.delete();
     }
 }

@@ -5,9 +5,6 @@ import v2.Point;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/**
- * Flood Fill usando FILA (Queue - FIFO).
- */
 public class FloodFillQueue extends AbstractFloodFill {
 
     public FloodFillQueue(BufferedImage image, FloodFillCanvas canvas,
@@ -36,10 +33,10 @@ public class FloodFillQueue extends AbstractFloodFill {
             image.setRGB(p.x, p.y, paintColor);
             updateDisplay();
 
-            queue.add(new Point(p.x + 1, p.y)); // direita
-            queue.add(new Point(p.x - 1, p.y)); // esquerda
-            queue.add(new Point(p.x, p.y + 1)); // baixo
-            queue.add(new Point(p.x, p.y - 1)); // cima
+            queue.add(new Point(p.x + 1, p.y));
+            queue.add(new Point(p.x - 1, p.y));
+            queue.add(new Point(p.x, p.y + 1));
+            queue.add(new Point(p.x, p.y - 1));
         }
 
         forceDisplayUpdate();
